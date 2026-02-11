@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision-IQ</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white text-center py-4 text-2xl font-bold shadow">
+        Decision-IQ Comparison Tool
+    </header>
+
+    <main class="container mx-auto p-6 space-y-8">
+
+        <!-- Options Section -->
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Add Options</h2>
+            <div class="flex gap-3">
+                <input id="optionInput" type="text" placeholder="Enter option name" class="border rounded p-2 w-full">
+                <button onclick="addOption()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add</button>
+            </div>
+            <ul id="optionList" class="mt-4 space-y-2"></ul>
+        </section>
+
+        <!-- Criteria Section -->
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Add Criteria</h2>
+            <div class="grid md:grid-cols-4 gap-3">
+                <input id="criteriaName" type="text" placeholder="Criteria Name" class="border rounded p-2">
+                <input id="criteriaWeight" type="number" placeholder="Weight" class="border rounded p-2">
+                <select id="criteriaType" class="border rounded p-2">
+                    <option value="benefit">Benefit (Higher better)</option>
+                    <option value="cost">Cost (Lower better)</option>
+                </select>
+                <button onclick="addCriteria()" class="bg-green-600 text-white rounded hover:bg-green-700 px-4 py-2">Add</button>
+            </div>
+            <ul id="criteriaList" class="mt-4 space-y-2"></ul>
+        </section>
+
+        <!-- Score Section -->
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Enter Scores</h2>
+            <div id="scoreContainer"></div>
+            <button onclick="calculateResults()" class="mt-4 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Calculate Result</button>
+        </section>
+
+        <!-- Result Section -->
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Results</h2>
+            <div id="resultOutput" class="mb-6 text-lg font-medium"></div>
+            <canvas id="resultChart"></canvas>
+        </section>
+
+    </main>
+    <!-- Script -->
+    <script src="script.js"></script>
+
+</body>
+</html>
