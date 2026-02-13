@@ -111,6 +111,55 @@ function updateScore(optionIndex, criteriaName, value) {
     options[optionIndex].scores[criteriaName] = parseFloat(value);
 }
 
+// Calculate Results
 
+function calculateResults() {
+    if (options.length === 0 || criteria.length === 0) {
+        alert("Add options and criteria first!");
+        return;
+    }
 
-   
+    // Normalize scores per criteria
+    const normalized = criteria.map(c => {
+        const scores = options.map(o => o.scores[c.name] || 0);
+        const max = Math.max(...scores);
+        const min = Math.min(...scores);
+
+        return {
+            name: c.name,
+            weight: c.weight,
+            type: c.type,
+            normalizedScores: scores.map(s => {
+                if (c.type === "benefit") return max ? s / max : 0;
+                else return s ? min / s : 0;
+            })
+        };
+    });
+
+    // Calculate total scores
+    const totals = options.map((opt, i) => {
+        let total = 0;
+        normalized.forEach(c => {
+            total += c.normalizedScores[i] * c.weight;
+        });
+        return { name: opt.name, total };
+    });
+
+    // Determine winner
+    totals.sort((a, b) => b.total - a.total);
+    const winner = totals[0];
+    const runnerUp = totals[1] || { total: winner.total };
+    const diffPercent = ((winner.total - runnerUp.total) / (runnerUp.total || 1) * 100).toFixed(2);
+
+    // Display result
+    const output = document.getElementById("resultOutput");
+    output.innerHTML = `
+        Winner: <span class="font-bold">${winner.name}</span><br>
+        Total Score: <span class="font-bold">${winner.total.toFixed(2)}</span><br>
+        Difference with next option: ${diffPercent}%
+    `;
+
+    // Show chart
+    renderChart(totals);
+}
+
