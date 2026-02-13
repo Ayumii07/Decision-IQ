@@ -163,3 +163,31 @@ function calculateResults() {
     renderChart(totals);
 }
 
+// Render Chart
+// =============================
+let chartInstance = null;
+function renderChart(data) {
+    const ctx = document.getElementById("resultChart").getContext("2d");
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.map(d => d.name),
+            datasets: [{
+                label: 'Total Score',
+                data: data.map(d => d.total.toFixed(2)),
+                backgroundColor: 'rgba(59, 130, 246, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Comparison Result' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
