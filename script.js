@@ -1,6 +1,7 @@
 // Data Storage
 let options = [];
 let criteria = [];
+
 // Add Option
 function addOption() {
     const input = document.getElementById("optionInput");
@@ -17,16 +18,20 @@ function addOption() {
     renderOptions();
     renderScoreInputs();
 }
+
 function renderOptions() {
     const list = document.getElementById("optionList");
     list.innerHTML = "";
 
     options.forEach((opt, idx) => {
         const li = document.createElement("li");
-        li.className = "flex justify-between bg-gray-100 p-2 rounded";
+        li.className = "flex justify-between items-center bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-lg";
         li.innerHTML = `
             ${opt.name} 
-            <button onclick="deleteOption(${idx})" class="text-red-600 hover:underline">Delete</button>
+            <button onclick="deleteOption(${idx})" 
+                    class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition">
+                Delete
+            </button>
         `;
         list.appendChild(li);
     });
@@ -63,10 +68,13 @@ function renderCriteria() {
 
     criteria.forEach((c, idx) => {
         const li = document.createElement("li");
-        li.className = "flex justify-between bg-gray-100 p-2 rounded";
+        li.className = "flex justify-between items-center bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition text-lg";
         li.innerHTML = `
             ${c.name} - Weight: ${c.weight} - Type: ${c.type} 
-            <button onclick="deleteCriteria(${idx})" class="text-red-600 hover:underline">Delete</button>
+            <button onclick="deleteCriteria(${idx})" 
+                    class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition">
+                Delete
+            </button>
         `;
         list.appendChild(li);
     });
@@ -89,15 +97,15 @@ function renderScoreInputs() {
 
     options.forEach((opt, i) => {
         const div = document.createElement("div");
-        div.className = "mb-4 p-2 bg-gray-50 rounded";
-        div.innerHTML = `<h3 class="font-semibold mb-2">${opt.name}</h3>`;
+        div.className = "mb-6 p-6 bg-white rounded-2xl shadow-md";
+        div.innerHTML = `<h3 class="text-xl font-semibold mb-4 text-indigo-600">${opt.name}</h3>`;
 
         criteria.forEach(c => {
             div.innerHTML += `
-                <div class="flex items-center gap-2 mb-1">
-                    <label class="w-40">${c.name}:</label>
+                <div class="flex items-center gap-4 mb-3">
+                    <label class="w-40 text-lg font-medium text-gray-700">${c.name}:</label>
                     <input type="number" min="0" step="0.01" placeholder="Enter score"
-                        class="border p-1 rounded w-32"
+                        class="border-2 border-gray-300 p-2 rounded-xl w-32 text-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         onchange="updateScore(${i}, '${c.name}', this.value)">
                 </div>
             `;
@@ -112,7 +120,6 @@ function updateScore(optionIndex, criteriaName, value) {
 }
 
 // Calculate Results
-
 function calculateResults() {
     if (options.length === 0 || criteria.length === 0) {
         alert("Add options and criteria first!");
@@ -154,9 +161,13 @@ function calculateResults() {
     // Display result
     const output = document.getElementById("resultOutput");
     output.innerHTML = `
-        Winner: <span class="font-bold">${winner.name}</span><br>
-        Total Score: <span class="font-bold">${winner.total.toFixed(2)}</span><br>
-        Difference with next option: ${diffPercent}%
+        <div class="bg-indigo-50 p-6 rounded-2xl shadow-md text-center">
+            <h3 class="text-2xl font-bold text-indigo-700 mb-2">🏆 Winner: ${winner.name}</h3>
+            <p class="text-lg">Total Score: <span class="font-semibold">${winner.total.toFixed(2)}</span></p>
+            <p class="text-md text-gray-600 mt-2">
+                Difference with next option: ${diffPercent}%
+            </p>
+        </div>
     `;
 
     // Show chart
@@ -164,7 +175,6 @@ function calculateResults() {
 }
 
 // Render Chart
-// =============================
 let chartInstance = null;
 function renderChart(data) {
     const ctx = document.getElementById("resultChart").getContext("2d");
@@ -183,7 +193,7 @@ function renderChart(data) {
             responsive: true,
             plugins: {
                 legend: { display: false },
-                title: { display: true, text: 'Comparison Result' }
+                title: { display: true, text: 'Comparison Result', font: { size: 18 } }
             },
             scales: {
                 y: { beginAtZero: true }

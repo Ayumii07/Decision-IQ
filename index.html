@@ -5,74 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DecisionIQ - Smart Comparison Tool</title>
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Chart.js CDN -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-gray-100 min-h-screen font-sans">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans">
 
     <!-- Header -->
-    <header class="bg-blue-600 text-white p-6 text-center text-3xl font-bold shadow-lg">
-        DecisionIQ Smart Comparison Tool
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-8 text-center shadow-xl">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-wide">
+             DecisionIQ Smart Comparison Tool
+        </h1>
+        <p class="text-lg mt-2 font-light opacity-90">
+            Compare smarter. Decide better.
+        </p>
     </header>
 
-    <main class="container mx-auto p-6 space-y-8">
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 space-y-10">
 
-        <!-- Add Options -->
-        <section class="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Add Options</h2>
+        <!-- Add Options Section -->
+        <section class="bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition duration-300">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Add Options</h2>
             <div class="flex gap-4">
-                <input type="text" id="optionInput" placeholder="Enter option name" 
-                       class="border p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400">
-                <button onclick="addOption()" 
-                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                <input type="text" id="optionInput" placeholder="Enter option name"
+                    class="border p-4 text-lg rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm placeholder-gray-400">
+                <button onclick="addOption()"
+                    class="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 hover:scale-105 transition transform duration-200">
                     Add
                 </button>
             </div>
-            <ul id="optionList" class="mt-4 space-y-2"></ul>
+            <ul id="optionList" class="mt-6 space-y-3 text-lg"></ul>
         </section>
 
-        <!-- Add Criteria -->
-        <section class="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Add Criteria</h2>
+        <!-- Add Criteria Section -->
+        <section class="bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition duration-300">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Add Criteria</h2>
             <div class="grid md:grid-cols-4 gap-4">
-                <input type="text" id="criteriaName" placeholder="Criteria name" 
-                       class="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                <input type="number" id="criteriaWeight" placeholder="Weight" 
-                       class="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
-                <select id="criteriaType" class="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                <input type="text" id="criteriaName" placeholder="Criteria name"
+                    class="border p-4 text-lg rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+                <input type="number" id="criteriaWeight" placeholder="Weight"
+                    class="border p-4 text-lg rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
+                <select id="criteriaType"
+                    class="border p-4 text-lg rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm">
                     <option value="benefit">Benefit (Higher better)</option>
                     <option value="cost">Cost (Lower better)</option>
                 </select>
-                <button onclick="addCriteria()" 
-                        class="bg-green-600 text-white rounded-lg hover:bg-green-700 transition px-4 py-2">
+                <button onclick="addCriteria()"
+                    class="bg-green-600 text-white text-lg font-semibold rounded-xl hover:bg-green-700 hover:scale-105 transition transform duration-200 px-4 py-3">
                     Add
                 </button>
             </div>
-            <ul id="criteriaList" class="mt-4 space-y-2"></ul>
+            <ul id="criteriaList" class="mt-6 space-y-3 text-lg"></ul>
         </section>
 
-        <!-- Enter Scores -->
-        <section class="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Enter Scores</h2>
-            <div id="scoreContainer" class="overflow-x-auto"></div>
-            <button onclick="calculateResults()" 
-                    class="mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">
+        <!-- Enter Scores Section -->
+        <section class="bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition duration-300">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Enter Scores</h2>
+            <div id="scoreContainer" class="overflow-x-auto text-lg"></div>
+            <button onclick="calculateResults()"
+                class="mt-6 bg-purple-600 text-white text-lg font-semibold px-8 py-3 rounded-xl hover:bg-purple-700 hover:scale-105 transition transform duration-200">
                 Calculate Result
             </button>
         </section>
 
-        <!-- Result Section -->
-        <section class="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Results</h2>
-            <div id="resultOutput" class="mb-6 text-lg font-medium text-gray-700"></div>
-            <canvas id="resultChart" class="rounded-xl bg-gray-50 p-2 shadow-inner"></canvas>
+        <!-- Results Section -->
+        <section class="bg-white p-8 rounded-3xl shadow-xl hover:shadow-2xl transition duration-300">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Results</h2>
+            <div id="resultOutput" class="mb-6 text-xl font-semibold text-indigo-700"></div>
+            <canvas id="resultChart" class="rounded-2xl bg-gray-50 p-4 shadow-inner"></canvas>
         </section>
 
     </main>
